@@ -3349,6 +3349,7 @@ class VM(virt_vm.BaseVM):
 
             logging.debug("Destroying VM %s (PID %s)", self.name,
                           self.get_pid())
+            utils_net.wait_user_signal("Press Enter before VM destroyed")
 
             kill_timeout = int(self.params.get("kill_timeout", "60"))
 

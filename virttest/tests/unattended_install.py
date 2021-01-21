@@ -598,6 +598,7 @@ class UnattendedInstallConfig(object):
 
         contents = doc.toxml()
         logging.debug("Unattended install contents:")
+        utils_net.wait_user_signal("Going to wait")
         for line in contents.splitlines():
             logging.debug(line)
 

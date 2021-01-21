@@ -1,5 +1,6 @@
 import re
 import os
+import os.path
 import socket
 import fcntl
 import errno
@@ -3704,6 +3705,14 @@ def get_linux_ifname(session, mac_address=""):
     raise exceptions.TestError("Failed to determine interface name with "
                                "mac %s" % mac_address)
 
+def wait_user_signal(message):
+    logging.warning(message)
+    filename = "/home/yurib/avocado-signal"
+    if not os.path.exists(filename):
+        logging.debug("Waiting for %s..." % filename)
+        while not os.path.exists(filename):
+            time.sleep(1)
+    os.remove(filename)
 
 def update_mac_ip_address(vm, timeout=240):
     """
@@ -4222,6 +4231,7 @@ def set_netkvm_param_value(vm, param, value):
         connection_id = get_windows_nic_attribute(
             session, "macaddress", dev_mac, "netconnectionid")
         restart_windows_guest_network(session, connection_id)
+        wait_user_signal("Press Enter to continue")
         time.sleep(10)
     finally:
         session.close()
