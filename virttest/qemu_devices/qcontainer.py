@@ -34,6 +34,7 @@ except ImportError:
 # Internal imports
 from virttest import vt_iothread
 from virttest import utils_qemu
+from virttest import utils_net
 from virttest import utils_misc
 from virttest import arch, storage, data_dir, virt_vm
 from virttest import qemu_storage
@@ -851,6 +852,8 @@ class DevContainer(object):
         device = self[device]
         self.set_dirty()
         # Remove all devices, which are removed together with this dev
+        logging.info("Removing device under test and its dependent")
+        utils_net.wait_user_signal("Press Enter before we unplug the devices")
         out = device.unplug(monitor)
 
         # The unplug action sometimes delays for a while per host performance,
