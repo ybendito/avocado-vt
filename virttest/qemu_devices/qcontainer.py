@@ -16,6 +16,7 @@ import shutil
 import stat
 import json
 import uuid
+import time
 
 # Avocado imports
 from avocado.core import exceptions
@@ -852,8 +853,9 @@ class DevContainer(object):
         device = self[device]
         self.set_dirty()
         # Remove all devices, which are removed together with this dev
-        logging.info("Removing device under test and its dependent")
-        utils_net.wait_user_signal("Press Enter before we unplug the devices")
+        #utils_net.wait_user_signal("Press Enter before we unplug the devices")
+        time.sleep(10)
+        logging.info("Removing device after 10 sec wait")
         out = device.unplug(monitor)
 
         # The unplug action sometimes delays for a while per host performance,
